@@ -18,7 +18,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Test envsubst-action (not in-place)
+    - name: Test envsubst-action (enable-in-place=false)
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -35,13 +35,7 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
-    - name: Check substituted files
-      run: |
-        ls test/test.json.env test/test.yaml.env
-        cat test/test.json.env test/test.yaml.env
-        rm test/test.json.env test/test.yaml.env
-
-    - name: Test envsubst-action (in-place)
+    - name: Test envsubst-action (enable-in-place=true)
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
