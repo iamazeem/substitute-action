@@ -1,0 +1,13 @@
+name: envsubst-action
+description: GitHub Action to substitute environment variables
+author: Azeem Sajid
+branding:
+  icon: terminal
+  color: green
+
+runs:
+  using: composite
+  steps:
+  - name: Test
+    shell: bash
+    run: echo "Hello World"
