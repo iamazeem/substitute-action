@@ -65,24 +65,24 @@ substitute() {
   echo "::group::Substituting"
 
   for FILE in $INPUT_FILES; do
-    echo "Substituting [$FILE]"
+    echo "::group::Substituting [$FILE]"
     FILE_ENV="$FILE.env"
     envsubst < "$FILE" > "$FILE_ENV"
     if [[ $ENABLE_IN_PLACE == true ]]; then
       mv "$FILE_ENV" "$FILE"
-      echo "$FILE updated successfully!"
+      echo "File updated successfully! [$FILE]"
       if [[ $ENABLE_DUMP == true ]]; then
         echo "--- [$FILE] ---"
         cat "$FILE"
       fi
     else
-      pwd
-      echo "$FILE_ENV generated successfully!"
+      echo "File generated successfully! [$FILE_ENV] "
       if [[ $ENABLE_DUMP == true ]]; then
         echo "--- [$FILE_ENV] ---"
         cat "$FILE_ENV"
       fi
     fi
+    echo "::endgroup::"
   done
 
   echo "::endgroup::"

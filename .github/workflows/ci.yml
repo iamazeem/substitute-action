@@ -37,5 +37,5 @@ jobs:
 
     - name: Check substituted files
       run: |
-        ls test.*.env
-        cat test.*.env
+        ls test/test.json.env
+        cat test/test.yaml.env
