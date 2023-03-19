@@ -81,7 +81,7 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
-    - name: Verify envsubst-action (enable-in-place=true)
+    - name: Verify envsubst-action with variables (enable-in-place=true)
       run: |
         diff test/test.json.env test/test-vars.json.expected
         diff test/test.yaml.env test/test-vars.yaml.expected
