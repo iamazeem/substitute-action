@@ -50,9 +50,9 @@ validate_inputs() {
 source_env_files() {
   echo "::group::Sourcing env files"
 
-  echo "Sourcing environment variables from env files"
   set -a
   for FILE in $ENV_FILES; do
+    echo "Sourcing $FILE"
     source "$FILE"
   done
   set +a
@@ -63,7 +63,6 @@ source_env_files() {
 substitute() {
   echo "::group::Substituting"
 
-  echo "Substituting enviornment variables in input files"
   for FILE in $INPUT_FILES; do
     echo "Substituting [$FILE]"
     envsubst < "$FILE"
