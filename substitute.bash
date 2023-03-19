@@ -12,7 +12,7 @@ validate_envsubst() {
   echo "::debug::Printing envsubst version"
   envsubst --version
 
-  echo "::endgroup::"
+  echo "::endgroup::Validation of envsubst commmand completed successfully!"
 }
 
 validate_inputs() {
@@ -42,10 +42,10 @@ validate_inputs() {
     done
   fi
 
-  echo "Enable in-place? [$ENABLE_IN_PLACE]"
-  echo "Enable dump? [$ENABLE_DUMP]"
+  echo "Enable in-place substitution? [$ENABLE_IN_PLACE]"
+  echo "Enable dumping to STDOUT? [$ENABLE_DUMP]"
 
-  echo "::endgroup::"
+  echo "::endgroup::Validating of inputs completed successfully!"
 }
 
 source_env_files() {
@@ -58,7 +58,7 @@ source_env_files() {
   done
   set +a
 
-  echo "::endgroup::"
+  echo "::endgroup::Sourcing completed successfully!"
 }
 
 substitute() {
@@ -72,20 +72,20 @@ substitute() {
       mv "$FILE_ENV" "$FILE"
       echo "File updated successfully! [$FILE]"
       if [[ $ENABLE_DUMP == true ]]; then
-        echo "--- [$FILE] ---"
+        echo "Dumping [$FILE]"
         cat "$FILE"
       fi
     else
       echo "New file generated successfully! [$FILE_ENV] "
       if [[ $ENABLE_DUMP == true ]]; then
-        echo "--- [$FILE_ENV] ---"
+        echo "Dumping [$FILE_ENV]"
         cat "$FILE_ENV"
       fi
     fi
-    echo "::endgroup::"
+    echo "::endgroup::Substitution completed successfully! [$FILE]"
   done
 
-  echo "::endgroup::"
+  echo "::endgroup::Substitution completed successfully!"
 }
 
 validate_envsubst
