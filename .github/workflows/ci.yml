@@ -30,6 +30,6 @@ jobs:
           test/test1.env
         input-files: |
           test/env.env
-          test/test1.json
-          test/test1.yaml
+          test/test.json
+          test/test.yaml
         in-place: false
