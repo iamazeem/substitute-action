@@ -11,12 +11,16 @@ inputs:
     description: List of env files
     required: false
   input-files:
-    description: List of input files to replace environment variables
+    description: List of input files
     required: true
-  in-place:
+  enable-in-place:
     description: Boolean flag to toggle in-place substitution
     required: false
     default: 'true'
+  enable-dump:
+    description: Enable dumping of the substituted/updated files
+    required: false
+    default: 'false'
 
 runs:
   using: composite
@@ -25,6 +29,7 @@ runs:
     env:
       ENV_FILES: '${{ inputs.env-files }}'
       INPUT_FILES: '${{ inputs.input-files }}'
-      IN_PLACE: ${{ inputs.in-place == 'true' }}
+      ENABLE_IN_PLACE: ${{ inputs.enable-in-place == 'true' }}
+      ENABLE_DUMP: ${{ inputs.enable-dump == 'true' }}
     shell: bash
     run: $GITHUB_ACTION_PATH/substitute.bash

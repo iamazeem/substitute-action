@@ -32,9 +32,10 @@ jobs:
         input-files: |
           test/test.json
           test/test.yaml
-        in-place: false
+        enable-in-place: false
+        enable-dump: true
 
     - name: Check substituted files
       run: |
-        ls *.env
-        cat *.env
+        ls test.*.env
+        cat test.*.env

@@ -42,7 +42,8 @@ validate_inputs() {
     done
   fi
 
-  echo "In-place substitution? [$IN_PLACE]"
+  echo "Enable in-place? [$ENABLE_IN_PLACE]"
+  echo "Enable dump? [$ENABLE_DUMP]"
 
   echo "::endgroup::"
 }
@@ -67,11 +68,20 @@ substitute() {
     echo "Substituting [$FILE]"
     FILE_ENV="$FILE.env"
     envsubst < "$FILE" > "$FILE_ENV"
-    if [[ $IN_PLACE == true ]]; then
+    if [[ $ENABLE_IN_PLACE == true ]]; then
       mv "$FILE_ENV" "$FILE"
       echo "$FILE updated successfully!"
+      if [[ $ENABLE_DUMP == true ]]; then
+        echo "--- [$FILE] ---"
+        cat "$FILE"
+      fi
     else
+      pwd
       echo "$FILE_ENV generated successfully!"
+      if [[ $ENABLE_DUMP == true ]]; then
+        echo "--- [$FILE_ENV] ---"
+        cat "$FILE_ENV"
+      fi
     fi
   done
 
