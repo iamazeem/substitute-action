@@ -78,6 +78,8 @@ substitute() {
     done
   fi
 
+  echo "VARS: [$VARS]"
+
   for FILE in $INPUT_FILES; do
     echo "::group::Substituting [$FILE]"
     FILE_ENV="$FILE.env"

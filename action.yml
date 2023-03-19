@@ -32,6 +32,7 @@ runs:
     env:
       ENV_FILES: '${{ inputs.env-files }}'
       INPUT_FILES: '${{ inputs.input-files }}'
+      VARIABLES: '${{ inputs.variables }}'
       ENABLE_IN_PLACE: ${{ inputs.enable-in-place == 'true' }}
       ENABLE_DUMP: ${{ inputs.enable-dump == 'true' }}
     shell: bash
