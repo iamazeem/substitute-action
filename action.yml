@@ -1,13 +1,30 @@
 name: envsubst-action
 description: GitHub Action to substitute environment variables
-author: Azeem Sajid
+author: Azeem Sajid <azeem.sajid@gmail.com>
+
 branding:
   icon: terminal
   color: green
+
+inputs:
+  env-files:
+    description: List of env files
+    required: false
+  input-files:
+    description: List of input files to replace environment variables
+    required: true
+  in-place:
+    description: Boolean flag to toggle in-place substitution
+    required: false
+    default: 'true'
 
 runs:
   using: composite
   steps:
   - name: Substitute
+    env:
+      ENV_FILES: '${{ inputs.env-files }}'
+      INPUT_FILES: '${{ inputs.input-files }}'
+      IN_PLACE: ${{ inputs.in-place == 'true' }}
     shell: bash
-    run: ./substitute.bash
+    run: $GITHUB_ACTION_PATH/substitute.bash
