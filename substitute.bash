@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "::group:: Substitue environment variables"
-
 echo "Running $0"
+
+echo "::group::Validating envsubst command"
 
 if ! which envsubst; then
   echo "envsubst command not found"
@@ -11,6 +11,10 @@ if ! which envsubst; then
 fi
 
 envsubst --version
+
+echo "::endgroup::"
+
+echo "::group::Validating inputs"
 
 if [[ -n $ENV_FILES ]]; then
   echo "Listing env files [$ENV_FILES]"
@@ -34,10 +38,14 @@ for FILE in $INPUT_FILES; do
   fi
 done
 
-echo "in-place = $IN_PLACE"
+echo "In-place substitution? [$IN_PLACE]"
+
+echo "::endgroup::"
+
+echo "::group::Substituting"
 
 # set -a
 # source file.env
 # set +a
 
-echo "::endgroup:: "
+echo "::endgroup::"
