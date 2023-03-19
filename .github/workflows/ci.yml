@@ -27,9 +27,8 @@ jobs:
         ENV_VAR4: 'env_var4'
       with:
         env-files: |
-          test/test1.env
+          test/test.env
         input-files: |
-          test/env.env
           test/test.json
           test/test.yaml
         in-place: false
