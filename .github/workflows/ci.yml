@@ -20,3 +20,10 @@ jobs:
 
     - name: Test envsubst-action
       uses: ./
+      with:
+        env-files: |
+          test/test1.env
+        input-files: |
+          test/test1.json
+          test/test1.yaml
+        in-place: false

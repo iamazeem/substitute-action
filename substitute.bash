@@ -2,24 +2,25 @@
 
 echo "::group:: Substitue environment variables"
 
-echo "::debug:: Running $0"
+echo "Running $0"
 
 if ! which envsubst; then
-  echo "::error:: \`envsubst\` not found, exiting"
+  echo "envsubst command not found"
+  echo "::error:: envsubst command not found"
   exit 1
 fi
 
 envsubst --version
 
 if [[ -n $ENV_FILES ]]; then
-  echo "::notice:: Listing env files [$ENV_FILES]"
+  echo "Listing env files [$ENV_FILES]"
 fi
 
 if [[ -n $INPUT_FILES ]]; then
-  echo "::notice:: Listing input files [$INPUT_FILES]"
+  echo "Listing input files [$INPUT_FILES]"
 fi
 
-echo "::notice:: in-place = $IN_PLACE"
+echo "in-place = $IN_PLACE"
 
 # set -a
 # source file.env
