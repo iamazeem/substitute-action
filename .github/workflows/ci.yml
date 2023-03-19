@@ -25,7 +25,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Test envsubst-action (enable-in-place=false)
+    - name: Run envsubst-action (enable-in-place=false)
       uses: ./
       with:
         env-files: |
@@ -36,7 +36,12 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
-    - name: Test envsubst-action (enable-in-place=true)
+    - name: Verify envsubst-action (enable-in-place=false)
+      run: |
+        diff test/test.json.env test/test.json.expected
+        diff test/test.yaml.env test/test.yaml.expected
+
+    - name: Run envsubst-action (enable-in-place=true)
       uses: ./
       with:
         env-files: |
@@ -46,3 +51,8 @@ jobs:
           test/test.yaml
         enable-in-place: true
         enable-dump: true
+
+    - name: Verify envsubst-action (enable-in-place=true)
+      run: |
+        diff test/test.json test/test.json.expected
+        diff test/test.yaml test/test.yaml.expected
