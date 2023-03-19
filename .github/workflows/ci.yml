@@ -15,5 +15,8 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - name: Hello World
-      run: echo "Hello World!"
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Test envsubst-action
+      uses: .
