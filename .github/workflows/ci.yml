@@ -33,3 +33,8 @@ jobs:
           test/test.json
           test/test.yaml
         in-place: false
+
+    - name: Check substituted files
+      run: |
+        ls *.env
+        cat *.env

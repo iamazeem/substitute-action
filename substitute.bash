@@ -65,9 +65,13 @@ substitute() {
 
   for FILE in $INPUT_FILES; do
     echo "Substituting [$FILE]"
-    envsubst < "$FILE" > "$FILE.env"
+    FILE_ENV="$FILE.env"
+    envsubst < "$FILE" > "$FILE_ENV"
     if [[ $IN_PLACE == true ]]; then
-      mv "$FILE.env" "$FILE"
+      mv "$FILE_ENV" "$FILE"
+      echo "$FILE updated successfully!"
+    else
+      echo "$FILE_ENV generated successfully!"
     fi
   done
 
