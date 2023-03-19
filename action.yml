@@ -13,6 +13,9 @@ inputs:
   input-files:
     description: List of input files
     required: true
+  variables:
+    description: List of variables to substitute
+    required: false
   enable-in-place:
     description: Enable/disable in-place substitution
     required: false

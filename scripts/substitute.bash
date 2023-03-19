@@ -19,7 +19,7 @@ validate_inputs() {
   echo "::group::Validating inputs"
 
   if [[ -n $ENV_FILES ]]; then
-    echo "Validating env files"
+    echo "Env files:"
     for FILE in $ENV_FILES; do
       if [[ ! -f $FILE ]]; then
         echo "$FILE does not exist!"
@@ -31,7 +31,7 @@ validate_inputs() {
   fi
 
   if [[ -n $INPUT_FILES ]]; then
-    echo "Validating input files"
+    echo "Input files:"
     for FILE in $INPUT_FILES; do
       if [[ ! -f $FILE ]]; then
         echo "$FILE does not exist!"
@@ -39,6 +39,13 @@ validate_inputs() {
       else
         echo "- $FILE"
       fi
+    done
+  fi
+
+  if [[ -n $VARIABLES ]]; then
+    echo "Variables:"
+    for VARIABLE in $VARIABLES; do
+      echo "- $VARIABLE"
     done
   fi
 
@@ -64,15 +71,26 @@ source_env_files() {
 substitute() {
   echo "::group::Substituting"
 
+  if [[ -n $VARIABLES ]]; then
+    local VARS=''
+    for VARIABLE in $VARIABLES; do
+      VARS+="\$$VARIABLE "
+    done
+  fi
+
   for FILE in $INPUT_FILES; do
     echo "::group::Substituting [$FILE]"
     FILE_ENV="$FILE.env"
-    envsubst < "$FILE" > "$FILE_ENV"
+    if [[ -n $VARIABLES ]]; then
+      envsubst "$VARS" < "$FILE" > "$FILE_ENV"
+    else
+      envsubst < "$FILE" > "$FILE_ENV"
+    fi
     if [[ $ENABLE_IN_PLACE == true ]]; then
       mv "$FILE_ENV" "$FILE"
       echo "File updated successfully! [$FILE]"
       if [[ $ENABLE_DUMP == true ]]; then
-        echo "Dumping [$FILE]"
+        echo "Dumping [$FILE]:"
         cat "$FILE"
       fi
     else
