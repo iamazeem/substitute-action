@@ -16,9 +16,23 @@ if [[ -n $ENV_FILES ]]; then
   echo "Listing env files [$ENV_FILES]"
 fi
 
+for FILE in $ENV_FILES; do
+  if [[ ! -f $FILE ]]; then
+    echo "$FILE does not exist!"
+    exit 1
+  fi
+done
+
 if [[ -n $INPUT_FILES ]]; then
   echo "Listing input files [$INPUT_FILES]"
 fi
+
+for FILE in $INPUT_FILES; do
+  if [[ ! -f $FILE ]]; then
+    echo "$FILE does not exist!"
+    exit 1
+  fi
+done
 
 echo "in-place = $IN_PLACE"
 
