@@ -76,7 +76,7 @@ substitute() {
         cat "$FILE"
       fi
     else
-      echo "File generated successfully! [$FILE_ENV] "
+      echo "New file generated successfully! [$FILE_ENV] "
       if [[ $ENABLE_DUMP == true ]]; then
         echo "--- [$FILE_ENV] ---"
         cat "$FILE_ENV"

@@ -1,4 +1,5 @@
 {
+    "ENV_VAR0": "$ENV_VAR0",
     "ENV_VAR1": "$ENV_VAR1",
     "ENV_VAR2": "$ENV_VAR2",
     "ENV_VAR3": "$ENV_VAR3",
