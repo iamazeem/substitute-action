@@ -1,2 +1,3 @@
 # envsubst-action
-GitHub Action to substitute environment variables in files
+
+GitHub Action to substitute environment variables.
