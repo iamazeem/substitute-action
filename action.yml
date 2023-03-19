@@ -8,6 +8,6 @@ branding:
 runs:
   using: composite
   steps:
-  - name: Test
+  - name: Substitute
     shell: bash
-    run: echo "Hello World"
+    run: ./substitute.bash
