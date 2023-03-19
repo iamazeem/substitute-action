@@ -3,7 +3,7 @@ description: GitHub Action to substitute environment variables
 author: Azeem Sajid <azeem.sajid@gmail.com>
 
 branding:
-  icon: terminal
+  icon: code
   color: green
 
 inputs:
@@ -14,11 +14,11 @@ inputs:
     description: List of input files
     required: true
   enable-in-place:
-    description: Boolean flag to toggle in-place substitution
+    description: Enable/disable in-place substitution
     required: false
     default: 'true'
   enable-dump:
-    description: Enable dumping of the substituted/updated files
+    description: Enable/disable dumping of the substituted/updated files
     required: false
     default: 'false'
 
@@ -32,4 +32,4 @@ runs:
       ENABLE_IN_PLACE: ${{ inputs.enable-in-place == 'true' }}
       ENABLE_DUMP: ${{ inputs.enable-dump == 'true' }}
     shell: bash
-    run: $GITHUB_ACTION_PATH/substitute.bash
+    run: $GITHUB_ACTION_PATH/scripts/substitute.bash
