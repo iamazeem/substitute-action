@@ -21,6 +21,7 @@ jobs:
     - name: Test envsubst-action
       uses: ./
       env:
+        ENV_VAR0: 'env_val0'
         ENV_VAR1: 'env_val1'
         ENV_VAR2: 'env_val2'
         ENV_VAR3: 'env_val3'
