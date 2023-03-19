@@ -65,7 +65,10 @@ substitute() {
 
   for FILE in $INPUT_FILES; do
     echo "Substituting [$FILE]"
-    envsubst < "$FILE"
+    envsubst < "$FILE" > "$FILE.env"
+    if [[ $IN_PLACE == true ]]; then
+      mv "$FILE.env" "$FILE"
+    fi
   done
 
   echo "::endgroup::"
