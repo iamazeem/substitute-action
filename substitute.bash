@@ -43,7 +43,7 @@ validate_inputs() {
   fi
 
   echo "Enable in-place substitution? [$ENABLE_IN_PLACE]"
-  echo "Enable dumping to STDOUT? [$ENABLE_DUMP]"
+  echo "Enable dump after substitution? [$ENABLE_DUMP]"
 
   echo "::endgroup::Validating of inputs completed successfully!"
 }
@@ -82,10 +82,10 @@ substitute() {
         cat "$FILE_ENV"
       fi
     fi
-    echo "::endgroup::Substitution completed successfully! [$FILE]"
+    echo "::endgroup::"
   done
 
-  echo "::endgroup::Substitution completed successfully!"
+  echo "::endgroup::"
 }
 
 validate_envsubst
