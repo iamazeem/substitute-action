@@ -39,6 +39,7 @@ jobs:
       run: |
         diff test/test.json.env test/test.json.expected
         diff test/test.yaml.env test/test.yaml.expected
+        rm -f test/test.json.env test/test.yaml.env
 
     - name: Run envsubst-action (enable-in-place=true)
       uses: ./
@@ -79,3 +80,9 @@ jobs:
           ENV_VAR1
         enable-in-place: false
         enable-dump: true
+
+    - name: Verify envsubst-action (enable-in-place=true)
+      run: |
+        diff test/test.json.env test/test-vars.json.expected
+        diff test/test.yaml.env test/test-vars.yaml.expected
+        rm -f test/test.json.env test/test.yaml.env
