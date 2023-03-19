@@ -20,10 +20,16 @@ jobs:
 
     - name: Test envsubst-action
       uses: ./
+      env:
+        ENV_VAR1: 'env_var1'
+        ENV_VAR2: 'env_var2'
+        ENV_VAR3: 'env_var3'
+        ENV_VAR4: 'env_var4'
       with:
         env-files: |
           test/test1.env
         input-files: |
+          test/env.env
           test/test1.json
           test/test1.yaml
         in-place: false

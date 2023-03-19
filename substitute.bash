@@ -15,7 +15,7 @@ echo "::endgroup::"
 
 echo "::group::Validating inputs"
 
-if [[ -z $ENV_FILES ]]; then
+if [[ -n $ENV_FILES ]]; then
   echo "Listing env files"
   for FILE in $ENV_FILES; do
     if [[ ! -f $FILE ]]; then
