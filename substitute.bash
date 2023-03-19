@@ -19,7 +19,7 @@ validate_inputs() {
   echo "::group::Validating inputs"
 
   if [[ -n $ENV_FILES ]]; then
-    echo "Validating and listing env files"
+    echo "Validating env files"
     for FILE in $ENV_FILES; do
       if [[ ! -f $FILE ]]; then
         echo "$FILE does not exist!"
@@ -31,7 +31,7 @@ validate_inputs() {
   fi
 
   if [[ -n $INPUT_FILES ]]; then
-    echo "Validating and listing input files"
+    echo "Validating input files"
     for FILE in $INPUT_FILES; do
       if [[ ! -f $FILE ]]; then
         echo "$FILE does not exist!"
@@ -47,15 +47,21 @@ validate_inputs() {
   echo "::endgroup::"
 }
 
-substitute() {
-  echo "::group::Substituting"
+source_env_files() {
+  echo "::group::Sourcing env files"
 
   echo "Sourcing environment variables from env files"
   set -a
   for FILE in $ENV_FILES; do
     source "$FILE"
   done
-  set +z
+  set +a
+
+  echo "::endgroup::"
+}
+
+substitute() {
+  echo "::group::Substituting"
 
   echo "Substituting enviornment variables in input files"
   for FILE in $INPUT_FILES; do
@@ -68,4 +74,5 @@ substitute() {
 
 validate_envsubst
 validate_inputs
+source_env_files
 substitute
