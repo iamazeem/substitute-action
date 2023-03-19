@@ -74,7 +74,7 @@ substitute() {
   if [[ -n $VARIABLES ]]; then
     local VARS=''
     for VARIABLE in $VARIABLES; do
-      VARS+="\$$VARIABLE "
+      VARS+="$VARIABLE "
     done
     echo "VARS: [$VARS]"
   fi
