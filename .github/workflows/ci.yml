@@ -62,7 +62,7 @@ jobs:
         diff test/test.json test/test.json.expected
         diff test/test.yaml test/test.yaml.expected
 
-    - name: Run envsubst-action (enable-in-place=true)
+    - name: Run envsubst-action with variables (enable-in-place=false)
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -74,7 +74,7 @@ jobs:
           test/test.json
           test/test.yaml
         variables: |
-          ENV_VAR0
-          ENV_VAR1
+          $ENV_VAR0
+          $ENV_VAR1
         enable-in-place: true
         enable-dump: true

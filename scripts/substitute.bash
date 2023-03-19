@@ -76,9 +76,8 @@ substitute() {
     for VARIABLE in $VARIABLES; do
       VARS+="\$$VARIABLE "
     done
+    echo "VARS: [$VARS]"
   fi
-
-  echo "VARS: [$VARS]"
 
   for FILE in $INPUT_FILES; do
     echo "::group::Substituting [$FILE]"
