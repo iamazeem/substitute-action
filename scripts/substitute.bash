@@ -31,12 +31,12 @@ validate_envsubst() {
 validate_env_files() {
   if [[ -n $ENV_FILES ]]; then
     echo "env-files:"
-    for FILE in $ENV_FILES; do
-      if [[ ! -f $FILE ]]; then
-        echo "$FILE does not exist!"
+    for ENV_FILE in $ENV_FILES; do
+      if [[ ! -f $ENV_FILE ]]; then
+        echo "[$ENV_FILE] file does not exist!"
         exit 1
       else
-        echo "- $FILE"
+        echo "- $ENV_FILE"
       fi
     done
   fi
@@ -48,12 +48,12 @@ validate_input_files() {
     exit 1
   else
     echo "input-files:"
-    for FILE in $INPUT_FILES; do
-      if [[ ! -f $FILE ]]; then
-        echo "$FILE does not exist!"
+    for INPUT_FILE in $INPUT_FILES; do
+      if [[ ! -f $INPUT_FILE ]]; then
+        echo "[$INPUT_FILE] file does not exist!"
         exit 1
       else
-        echo "- $FILE"
+        echo "- $INPUT_FILE"
       fi
     done
   fi
@@ -85,9 +85,9 @@ source_env_files() {
   echo "::group::Sourcing env files"
 
   set -a
-  for FILE in $ENV_FILES; do
-    echo "Sourcing [$FILE]"
-    . "$FILE"
+  for ENV_FILE in $ENV_FILES; do
+    echo "Sourcing [$ENV_FILE]"
+    . "$ENV_FILE"
   done
   set +a
 
@@ -95,44 +95,34 @@ source_env_files() {
 }
 
 substitute() {
-  echo "::group::Substituting"
-
-  if [[ -n $VARIABLES ]]; then
-    echo "Preparing variables list"
-    local VARS=""
-    for VARIABLE in $VARIABLES; do
-      [[ -n $VARS ]] && VARS+=" "
-      VARS+="\$$VARIABLE"
-    done
-    echo "VARS: [$VARS]"
-  fi
-
-  for FILE in $INPUT_FILES; do
-    echo "::group::Substituting [$FILE]"
-    FILE_ENV="$FILE.env"
-    if [[ -n $VARIABLES ]]; then
-      envsubst "$VARS" < "$FILE" > "$FILE_ENV"
-    else
-      envsubst < "$FILE" > "$FILE_ENV"
+  local VARS=""
+  for VARIABLE in $VARIABLES; do
+    if [[ -n $VARS ]]; then
+      VARS+=" "
     fi
+    VARS+="\$$VARIABLE"
+  done
+
+  for INPUT_FILE in $INPUT_FILES; do
+    echo "::group::Substituting [$INPUT_FILE]"
+    OUTPUT_FILE="$INPUT_FILE.env"
+    envsubst "$VARS" < "$INPUT_FILE" > "$OUTPUT_FILE"
     if [[ $ENABLE_IN_PLACE == true ]]; then
-      mv "$FILE_ENV" "$FILE"
-      echo "File updated successfully! [$FILE]"
+      mv "$OUTPUT_FILE" "$INPUT_FILE"
+      echo "File updated successfully! [$INPUT_FILE]"
       if [[ $ENABLE_DUMP == true ]]; then
-        echo "Dump [$FILE]:"
-        cat -n "$FILE"
+        echo "Dump [$INPUT_FILE]:"
+        cat -n "$INPUT_FILE"
       fi
     else
-      echo "New file generated successfully! [$FILE_ENV] "
+      echo "New file generated successfully! [$OUTPUT_FILE] "
       if [[ $ENABLE_DUMP == true ]]; then
-        echo "Dump [$FILE_ENV]"
-        cat -n "$FILE_ENV"
+        echo "Dump [$OUTPUT_FILE]"
+        cat -n "$OUTPUT_FILE"
       fi
     fi
     echo "::endgroup::"
   done
-
-  echo "::endgroup::"
 }
 
 # start
