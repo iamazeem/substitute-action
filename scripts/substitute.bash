@@ -109,7 +109,7 @@ substitute() {
 
   for FILE in $INPUT_FILES; do
     echo "::group::Substituting [$FILE]"
-    FILE_ENV="$FILE.envsubst"
+    FILE_ENV="$FILE.env"
     if [[ -n $VARIABLES ]]; then
       envsubst "$VARS" < "$FILE" > "$FILE_ENV"
     else
