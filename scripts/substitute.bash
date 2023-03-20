@@ -95,13 +95,16 @@ source_env_files() {
 }
 
 substitute() {
-  local VARS=""
-  for VARIABLE in $VARIABLES; do
-    if [[ -n $VARS ]]; then
-      VARS+=" "
-    fi
-    VARS+="\$$VARIABLE"
-  done
+  if [[ -n $VARIABLES ]]; then
+    local VARS=""
+    for VARIABLE in $VARIABLES; do
+      if [[ -n $VARS ]]; then
+        VARS+=" "
+      fi
+      VARS+="\$$VARIABLE"
+    done
+    echo "::debug::VARS: [$VARS]"
+  fi
 
   for INPUT_FILE in $INPUT_FILES; do
     echo "::group::Substituting [$INPUT_FILE]"
