@@ -22,7 +22,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Run envsubst-action (enable-in-place=false)
+    - name: 'Run envsubst-action [enable-in-place: false, enable-dump: true]'
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -39,13 +39,13 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
-    - name: Verify envsubst-action (enable-in-place=false)
+    - name: 'Verify envsubst-action [enable-in-place: false, enable-dump: true]'
       run: |
         diff test/test.json.env test/test.json.expected
         diff test/test.yaml.env test/test.yaml.expected
-        rm -f test/test.json.env test/test.yaml.env
+        git restore .
 
-    - name: Run envsubst-action (enable-in-place=true)
+    - name: 'Run envsubst-action [enable-in-place: true, enable-dump: true]'
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -66,9 +66,9 @@ jobs:
       run: |
         diff test/test.json test/test.json.expected
         diff test/test.yaml test/test.yaml.expected
-        git restore test/test.json test/test.yaml
+        git restore .
 
-    - name: Run envsubst-action with variables (enable-in-place=false)
+    - name: 'Run envsubst-action with variables [enable-in-place: false, enable-dump: true]'
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -88,8 +88,32 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
-    - name: Verify envsubst-action with variables (enable-in-place=true)
+    - name: 'Verify envsubst-action with variables [enable-in-place: false, enable-dump: true]'
       run: |
         diff test/test.json.env test/test-vars.json.expected
         diff test/test.yaml.env test/test-vars.yaml.expected
-        rm -f test/test.json.env test/test.yaml.env
+        git restore .
+
+    - name: 'Run envsubst-action with output-directory [enable-in-place: false, enable-dump: true]'
+      uses: ./
+      env:
+        ENV_VAR0: 'env_val0'
+        ENV_VAR1: 'env_val1'
+        ENV_VAR2: 'env_val2'
+        ENV_VAR3: 'env_val3'
+        ENV_VAR4: 'env_val4'
+      with:
+        env-files: |
+          test/test.env
+        input-files: |
+          test/test.json
+          test/test.yaml
+        output-directory: ./output
+        enable-in-place: false
+        enable-dump: true
+
+    - name: 'Verify envsubst-action with output-directory [enable-in-place: false, enable-dump: true]'
+      run: |
+        diff output/test.json.env test/test.json.expected
+        diff output/test.yaml.env test/test.yaml.expected
+        git restore .

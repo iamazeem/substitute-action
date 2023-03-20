@@ -68,12 +68,28 @@ validate_variables() {
   fi
 }
 
+validate_output_directory() {
+  if [[ $ENABLE_IN_PLACE == true ]]; then
+    return
+  elif [[ -n $OUTPUT_DIRECTORY ]]; then
+    local STATUS=""
+    if [[ -d $OUTPUT_DIRECTORY ]]; then
+      STATUS="EXISTS"
+    else
+      mkdir -p "$OUTPUT_DIRECTORY"
+      STATUS="CREATED"
+    fi
+    echo "output-directory: [$OUTPUT_DIRECTORY] [$STATUS]"
+  fi
+}
+
 validate_inputs() {
   echo "::group::Validating inputs"
 
   validate_env_files
   validate_input_files
   validate_variables
+  validate_output_directory
 
   echo "enable-in-place: [$ENABLE_IN_PLACE]"
   echo "enable-dump: [$ENABLE_DUMP]"
@@ -108,21 +124,26 @@ substitute() {
 
   for INPUT_FILE in $INPUT_FILES; do
     echo "::group::Substituting [$INPUT_FILE]"
-    OUTPUT_FILE="$INPUT_FILE.env"
+    local OUTPUT_FILE=""
+    if [[ -n $OUTPUT_DIRECTORY ]]; then
+      OUTPUT_FILE="$OUTPUT_DIRECTORY/$(basename "$INPUT_FILE").env"
+    else
+      OUTPUT_FILE="$INPUT_FILE.env"
+    fi
     if [[ -n $VARIABLES ]]; then
       envsubst "$VARS" < "$INPUT_FILE" > "$OUTPUT_FILE"
     else
       envsubst < "$INPUT_FILE" > "$OUTPUT_FILE"
     fi
     if [[ $ENABLE_IN_PLACE == true ]]; then
-      mv "$OUTPUT_FILE" "$INPUT_FILE"
+      mv -f "$OUTPUT_FILE" "$INPUT_FILE"
       echo "File updated successfully! [$INPUT_FILE]"
       if [[ $ENABLE_DUMP == true ]]; then
         echo "Dump [$INPUT_FILE]:"
         cat -n "$INPUT_FILE"
       fi
     else
-      echo "New file generated successfully! [$OUTPUT_FILE] "
+      echo "New file generated successfully! [$OUTPUT_FILE]"
       if [[ $ENABLE_DUMP == true ]]; then
         echo "Dump [$OUTPUT_FILE]"
         cat -n "$OUTPUT_FILE"

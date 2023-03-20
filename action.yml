@@ -1,38 +1,42 @@
-name: envsubst-action
-description: GitHub Action to substitute environment variables
-author: Azeem Sajid <azeem.sajid@gmail.com>
+name: 'envsubst-action'
+description: 'GitHub Action to substitute environment variables'
+author: 'Azeem Sajid <azeem.sajid@gmail.com>'
 
 branding:
-  icon: code
-  color: green
+  icon: 'code'
+  color: 'green'
 
 inputs:
   env-files:
-    description: List of env files
+    description: 'List of env files containing `VARIABLE=VALUE` per line'
     required: false
   input-files:
-    description: List of input files
+    description: 'List of input files to substitute environment variables'
     required: true
   variables:
-    description: List of variables to substitute
+    description: 'List of variables to substitute; the rest is ignored'
+    required: false
+  output-directory:
+    description: 'Output directory path when `enable-in-place: false`'
     required: false
   enable-in-place:
-    description: Enable/disable in-place substitution
+    description: 'Enable/disable in-place substitution'
     required: false
     default: 'true'
   enable-dump:
-    description: Enable/disable dumping of updated files
+    description: 'Enable/disable dumping of updated files'
     required: false
     default: 'false'
 
 runs:
-  using: composite
+  using: 'composite'
   steps:
-  - name: Substitute
+  - name: 'Substitute'
     env:
       ENV_FILES: '${{ inputs.env-files }}'
       INPUT_FILES: '${{ inputs.input-files }}'
       VARIABLES: '${{ inputs.variables }}'
+      OUTPUT_DIRECTORY: '${{ inputs.output-directory }}'
       ENABLE_IN_PLACE: ${{ inputs.enable-in-place == 'true' }}
       ENABLE_DUMP: ${{ inputs.enable-dump == 'true' }}
     shell: bash
