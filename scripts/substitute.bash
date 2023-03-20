@@ -54,7 +54,7 @@ validate_input_files() {
     echo "input-files cannot be empty!"
     exit 1
   else
-    echo "Input files:"
+    echo "input-files:"
     for FILE in $INPUT_FILES; do
       if [[ ! -f $FILE ]]; then
         echo "$FILE does not exist!"
@@ -72,7 +72,7 @@ validate_variables() {
   echo "::group::Validating variables"
 
   if [[ -n $VARIABLES ]]; then
-    echo "Variables:"
+    echo "variables:"
     for VARIABLE in $VARIABLES; do
       echo "- $VARIABLE"
     done
@@ -88,8 +88,8 @@ validate_inputs() {
   validate_input_files
   validate_variables
 
-  echo "enable-in-place:  [$ENABLE_IN_PLACE]"
-  echo "enable-dump:      [$ENABLE_DUMP]"
+  echo "enable-in-place: [$ENABLE_IN_PLACE]"
+  echo "enable-dump: [$ENABLE_DUMP]"
 
   echo "::endgroup::"
 }
@@ -116,7 +116,9 @@ substitute() {
     for VARIABLE in $VARIABLES; do
       VARS+="\$$VARIABLE "
     done
-    [[ -n $VARS ]] && VARS="${VARS: :-1}"
+    if [[ -n $VARS ]]; then
+      VARS=${VARS: 0:-1}
+    fi
     echo "VARIABLES: [$VARS]"
   fi
 
