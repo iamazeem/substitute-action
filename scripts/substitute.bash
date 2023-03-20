@@ -109,7 +109,11 @@ substitute() {
   for INPUT_FILE in $INPUT_FILES; do
     echo "::group::Substituting [$INPUT_FILE]"
     OUTPUT_FILE="$INPUT_FILE.env"
-    envsubst "$VARS" < "$INPUT_FILE" > "$OUTPUT_FILE"
+    if [[ -n $VARIABLES ]]; then
+      envsubst "$VARS" < "$INPUT_FILE" > "$OUTPUT_FILE"
+    else
+      envsubst < "$INPUT_FILE" > "$OUTPUT_FILE"
+    fi
     if [[ $ENABLE_IN_PLACE == true ]]; then
       mv "$OUTPUT_FILE" "$INPUT_FILE"
       echo "File updated successfully! [$INPUT_FILE]"
