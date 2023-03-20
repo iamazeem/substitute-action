@@ -73,6 +73,9 @@ jobs:
       env:
         ENV_VAR0: 'env_val0'
         ENV_VAR1: 'env_val1'
+        ENV_VAR2: 'env_val2'
+        ENV_VAR3: 'env_val3'
+        ENV_VAR4: 'env_val4'
       with:
         env-files: |
           test/test.env
