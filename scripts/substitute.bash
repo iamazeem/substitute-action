@@ -23,15 +23,12 @@ validate_envsubst() {
     exit 1
   fi
 
-  echo "Printing envsubst version"
   envsubst --version
 
   echo "::endgroup::"
 }
 
 validate_env_files() {
-  echo "::group::Validating env files"
-
   if [[ -n $ENV_FILES ]]; then
     echo "env-files:"
     for FILE in $ENV_FILES; do
@@ -43,13 +40,9 @@ validate_env_files() {
       fi
     done
   fi
-
-  echo "::endgroup::"
 }
 
 validate_input_files() {
-  echo "::group::Validating input files"
-
   if [[ -z $INPUT_FILES ]]; then
     echo "input-files cannot be empty!"
     exit 1
@@ -64,21 +57,15 @@ validate_input_files() {
       fi
     done
   fi
-
-  echo "::endgroup::"
 }
 
 validate_variables() {
-  echo "::group::Validating variables"
-
   if [[ -n $VARIABLES ]]; then
     echo "variables:"
     for VARIABLE in $VARIABLES; do
       echo "- $VARIABLE"
     done
   fi
-
-  echo "::endgroup::"
 }
 
 validate_inputs() {
@@ -114,17 +101,15 @@ substitute() {
     echo "Preparing variables list"
     local VARS=""
     for VARIABLE in $VARIABLES; do
-      VARS+="\$$VARIABLE "
+      [[ -n $VARS ]] && VARS+=" "
+      VARS+="\$$VARIABLE"
     done
-    if [[ -n $VARS ]]; then
-      VARS=${VARS: 0:-1}
-    fi
-    echo "VARIABLES: [$VARS]"
+    echo "VARS: [$VARS]"
   fi
 
   for FILE in $INPUT_FILES; do
     echo "::group::Substituting [$FILE]"
-    FILE_ENV="$FILE.env"
+    FILE_ENV="$FILE.envsubst"
     if [[ -n $VARIABLES ]]; then
       envsubst "$VARS" < "$FILE" > "$FILE_ENV"
     else
