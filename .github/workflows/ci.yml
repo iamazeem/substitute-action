@@ -19,10 +19,10 @@ jobs:
         shell: bash
 
     steps:
-    - name: Checkout
+    - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v3
 
-    - name: 'Run envsubst-action [enable-in-place: false, enable-dump: true]'
+    - name: 'Run [enable-in-place: false, enable-dump: true]'
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -39,13 +39,13 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
-    - name: 'Verify envsubst-action [enable-in-place: false, enable-dump: true]'
+    - name: 'Verify [enable-in-place: false, enable-dump: true]'
       run: |
         diff test/test.json.env test/test.json.expected
         diff test/test.yaml.env test/test.yaml.expected
         git restore .
 
-    - name: 'Run envsubst-action [enable-in-place: true, enable-dump: true]'
+    - name: 'Run [enable-in-place: true, enable-dump: true]'
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -62,13 +62,13 @@ jobs:
         enable-in-place: true
         enable-dump: true
 
-    - name: Verify envsubst-action (enable-in-place=true)
+    - name: 'Verify [enable-in-place: true, enable-dump: true]'
       run: |
         diff test/test.json test/test.json.expected
         diff test/test.yaml test/test.yaml.expected
         git restore .
 
-    - name: 'Run envsubst-action with variables [enable-in-place: false, enable-dump: true]'
+    - name: 'Run with variables [enable-in-place: false, enable-dump: true]'
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -88,13 +88,13 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
-    - name: 'Verify envsubst-action with variables [enable-in-place: false, enable-dump: true]'
+    - name: 'Verify with variables [enable-in-place: false, enable-dump: true]'
       run: |
         diff test/test.json.env test/test-vars.json.expected
         diff test/test.yaml.env test/test-vars.yaml.expected
         git restore .
 
-    - name: 'Run envsubst-action with output-directory [enable-in-place: false, enable-dump: true]'
+    - name: 'Run with output-directory [enable-in-place: false, enable-dump: true]'
       uses: ./
       env:
         ENV_VAR0: 'env_val0'
@@ -112,7 +112,7 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
-    - name: 'Verify envsubst-action with output-directory [enable-in-place: false, enable-dump: true]'
+    - name: 'Verify with output-directory [enable-in-place: false, enable-dump: true]'
       run: |
         diff output/test.json.env test/test.json.expected
         diff output/test.yaml.env test/test.yaml.expected
