@@ -86,7 +86,7 @@ source_env_files() {
 
   set -a
   for FILE in $ENV_FILES; do
-    echo "Sourcing $FILE"
+    echo "Sourcing [$FILE]"
     . "$FILE"
   done
   set +a
@@ -119,13 +119,13 @@ substitute() {
       mv "$FILE_ENV" "$FILE"
       echo "File updated successfully! [$FILE]"
       if [[ $ENABLE_DUMP == true ]]; then
-        echo "Dumping [$FILE]:"
+        echo "Dump [$FILE]:"
         cat -n "$FILE"
       fi
     else
       echo "New file generated successfully! [$FILE_ENV] "
       if [[ $ENABLE_DUMP == true ]]; then
-        echo "Dumping [$FILE_ENV]"
+        echo "Dump [$FILE_ENV]"
         cat -n "$FILE_ENV"
       fi
     fi
