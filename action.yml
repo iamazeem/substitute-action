@@ -21,7 +21,7 @@ inputs:
     required: false
     default: 'true'
   enable-dump:
-    description: Enable/disable dumping of the substituted/updated files
+    description: Enable/disable dumping of updated files
     required: false
     default: 'false'
 
