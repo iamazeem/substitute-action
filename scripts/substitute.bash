@@ -1,25 +1,39 @@
 #!/bin/bash
 
+# error handling
+
+set -eE -o functrace
+
+failure() {
+  local LINE="$1"
+  local CMD="$2"
+  echo >&2 "[FATAL] $LINE: $CMD"
+  echo "::error::$LINE: $CMD"
+}
+
+trap 'failure ${LINENO} "$BASH_COMMAND"' ERR
+
+# functions
+
 validate_envsubst() {
   echo "::group::Validating envsubst command"
 
   if ! which envsubst; then
     echo "envsubst command not found!"
-    echo "::error::envsubst command not found!"
     exit 1
   fi
 
-  echo "::debug::Printing envsubst version"
+  echo "Printing envsubst version"
   envsubst --version
 
-  echo "::endgroup::Validation of envsubst commmand completed successfully!"
+  echo "::endgroup::"
 }
 
-validate_inputs() {
-  echo "::group::Validating inputs"
+validate_env_files() {
+  echo "::group::Validating env files"
 
   if [[ -n $ENV_FILES ]]; then
-    echo "Env files:"
+    echo "env-files:"
     for FILE in $ENV_FILES; do
       if [[ ! -f $FILE ]]; then
         echo "$FILE does not exist!"
@@ -30,7 +44,16 @@ validate_inputs() {
     done
   fi
 
-  if [[ -n $INPUT_FILES ]]; then
+  echo "::endgroup::"
+}
+
+validate_input_files() {
+  echo "::group::Validating input files"
+
+  if [[ -z $INPUT_FILES ]]; then
+    echo "input-files cannot be empty!"
+    exit 1
+  else
     echo "Input files:"
     for FILE in $INPUT_FILES; do
       if [[ ! -f $FILE ]]; then
@@ -42,6 +65,12 @@ validate_inputs() {
     done
   fi
 
+  echo "::endgroup::"
+}
+
+validate_variables() {
+  echo "::group::Validating variables"
+
   if [[ -n $VARIABLES ]]; then
     echo "Variables:"
     for VARIABLE in $VARIABLES; do
@@ -49,10 +78,20 @@ validate_inputs() {
     done
   fi
 
-  echo "Enable in-place substitution? [$ENABLE_IN_PLACE]"
-  echo "Enable dump after substitution? [$ENABLE_DUMP]"
+  echo "::endgroup::"
+}
 
-  echo "::endgroup::Validating of inputs completed successfully!"
+validate_inputs() {
+  echo "::group::Validating inputs"
+
+  validate_env_files
+  validate_input_files
+  validate_variables
+
+  echo "enable-in-place:  [$ENABLE_IN_PLACE]"
+  echo "enable-dump:      [$ENABLE_DUMP]"
+
+  echo "::endgroup::"
 }
 
 source_env_files() {
@@ -61,22 +100,24 @@ source_env_files() {
   set -a
   for FILE in $ENV_FILES; do
     echo "Sourcing $FILE"
-    source "$FILE"
+    . "$FILE"
   done
   set +a
 
-  echo "::endgroup::Sourcing completed successfully!"
+  echo "::endgroup::"
 }
 
 substitute() {
   echo "::group::Substituting"
 
   if [[ -n $VARIABLES ]]; then
-    local VARS=''
+    echo "Preparing variables list"
+    local VARS=""
     for VARIABLE in $VARIABLES; do
       VARS+="\$$VARIABLE "
     done
-    echo "VARS: [$VARS]"
+    [[ -n $VARS ]] && VARS="${VARS: :-1}"
+    echo "VARIABLES: [$VARS]"
   fi
 
   for FILE in $INPUT_FILES; do
@@ -92,13 +133,13 @@ substitute() {
       echo "File updated successfully! [$FILE]"
       if [[ $ENABLE_DUMP == true ]]; then
         echo "Dumping [$FILE]:"
-        cat "$FILE"
+        cat -n "$FILE"
       fi
     else
       echo "New file generated successfully! [$FILE_ENV] "
       if [[ $ENABLE_DUMP == true ]]; then
         echo "Dumping [$FILE_ENV]"
-        cat "$FILE_ENV"
+        cat -n "$FILE_ENV"
       fi
     fi
     echo "::endgroup::"
@@ -106,6 +147,8 @@ substitute() {
 
   echo "::endgroup::"
 }
+
+# start
 
 validate_envsubst
 validate_inputs
