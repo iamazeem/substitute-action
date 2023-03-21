@@ -69,17 +69,27 @@ validate_variables() {
 }
 
 validate_output_directory() {
-  if [[ $ENABLE_IN_PLACE == true ]]; then
-    return
-  elif [[ -n $OUTPUT_DIRECTORY ]]; then
-    local STATUS=""
+  if [[ $ENABLE_IN_PLACE == false && -n $OUTPUT_DIRECTORY ]]; then
     if [[ -d $OUTPUT_DIRECTORY ]]; then
-      STATUS="EXISTS"
+      echo "output-directory: [$OUTPUT_DIRECTORY] [EXISTS]"
+      echo -n "Is [$OUTPUT_DIRECTORY] writeable? "
+      if [[ ! -w $OUTPUT_DIRECTORY ]]; then
+        echo "[NO]"
+        echo "output-directory must be writeable!"
+        ls -hl "$OUTPUT_DIRECTORY"
+        exit 1
+      else
+        echo "[YES]"
+      fi
     else
-      mkdir -p "$OUTPUT_DIRECTORY"
-      STATUS="CREATED"
+      echo "output-directory does not exist! [$OUTPUT_DIRECTORY]"
+      echo "Creating [$OUTPUT_DIRECTORY]"
+      if ! mkdir -p "$OUTPUT_DIRECTORY"; then
+        echo "Unable to create output-directory! [$OUTPUT_DIRECTORY]"
+        exit 1
+      fi
+      echo "output-directory: [$OUTPUT_DIRECTORY] [CREATED]"
     fi
-    echo "output-directory: [$OUTPUT_DIRECTORY] [$STATUS]"
   fi
 }
 
