@@ -74,24 +74,24 @@ validate_output_directory() {
     echo "output-directory:"
     if [[ -d $OUTPUT_DIRECTORY ]]; then
       echo "- [$OUTPUT_DIRECTORY] [EXISTS]"
-      echo -n "- Is [$OUTPUT_DIRECTORY] writeable? "
-      if [[ ! -w $OUTPUT_DIRECTORY ]]; then
-        echo "[NO]"
-        echo "- output-directory must be writeable!"
-        echo "- Possible permissions issue! See:"
-        ls -hl "$OUTPUT_DIRECTORY"
-        exit 1
-      else
-        echo "[YES]"
-      fi
     else
-      echo "output-directory does not exist! [$OUTPUT_DIRECTORY]"
-      echo "Creating [$OUTPUT_DIRECTORY]"
+      echo "- [$OUTPUT_DIRECTORY] does not exist!"
+      echo "- Creating [$OUTPUT_DIRECTORY]"
       if ! mkdir -p "$OUTPUT_DIRECTORY"; then
-        echo "Unable to create output-directory! [$OUTPUT_DIRECTORY]"
+        echo "- Unable to create [$OUTPUT_DIRECTORY]!"
         exit 1
       fi
-      echo "output-directory: [$OUTPUT_DIRECTORY] [CREATED]"
+      echo "- output-directory: [$OUTPUT_DIRECTORY] [CREATED]"
+    fi
+    echo -n "- Is [$OUTPUT_DIRECTORY] writeable? "
+    if [[ -w $OUTPUT_DIRECTORY ]]; then
+      echo "[YES]"
+    else
+      echo "[NO]"
+      echo "- output-directory must be writeable!"
+      echo "- Possible permissions issue! See:"
+      ls -hl "$OUTPUT_DIRECTORY"
+      exit 1
     fi
   fi
 }
