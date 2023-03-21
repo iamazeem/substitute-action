@@ -165,7 +165,7 @@ substitute() {
       OUTPUT_FILE="$INPUT_FILE.env"
     fi
     if [[ -n $VARIABLES ]]; then
-      envsubst "$VARS" < "$INPUT_FILE" > "$OUTPUT_FILE"
+      envsubst "$VARS_LIST" < "$INPUT_FILE" > "$OUTPUT_FILE"
     else
       envsubst < "$INPUT_FILE" > "$OUTPUT_FILE"
     fi
