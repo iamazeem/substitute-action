@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# error handling
-
 set -eE -o functrace
 
 failure() {
@@ -97,6 +95,14 @@ validate_output_directory() {
   fi
 }
 
+validate_enable_in_place() {
+  echo "enable-in-place: [$ENABLE_IN_PLACE]"
+}
+
+validate_enable_dump() {
+  echo "enable-dump: [$ENABLE_DUMP]"
+}
+
 validate_inputs() {
   echo "::group::Validating inputs"
 
@@ -104,9 +110,8 @@ validate_inputs() {
   validate_input_files
   validate_variables
   validate_output_directory
-
-  echo "enable-in-place: [$ENABLE_IN_PLACE]"
-  echo "enable-dump: [$ENABLE_DUMP]"
+  validate_enable_in_place
+  validate_enable_dump
 
   echo "::endgroup::"
 }
