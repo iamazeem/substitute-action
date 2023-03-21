@@ -2,14 +2,14 @@
 
 set -eE -o functrace
 
-failure() {
+fatal() {
   local LINE="$1"
   local CMD="$2"
-  echo >&2 "[FATAL] $LINE: $CMD"
-  echo "::error::$LINE: $CMD"
+  echo "[FATAL] $LINE: $CMD"
+  exit 1
 }
 
-trap 'failure ${LINENO} "$BASH_COMMAND"' ERR
+trap 'fatal ${LINENO} "$BASH_COMMAND"' ERR
 
 # functions
 
