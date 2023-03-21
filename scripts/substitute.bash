@@ -32,11 +32,12 @@ validate_env_files() {
   if [[ -n $ENV_FILES ]]; then
     echo "env-files:"
     for ENV_FILE in $ENV_FILES; do
+      echo -n "- [$ENV_FILE] "
       if [[ ! -f $ENV_FILE ]]; then
-        echo "[$ENV_FILE] file does not exist!"
+        echo "[DOES NOT EXIST]"
         exit 1
       else
-        echo "- $ENV_FILE"
+        echo "[EXISTS]"
       fi
     done
   fi
@@ -70,12 +71,14 @@ validate_variables() {
 
 validate_output_directory() {
   if [[ $ENABLE_IN_PLACE == false && -n $OUTPUT_DIRECTORY ]]; then
+    echo "output-directory:"
     if [[ -d $OUTPUT_DIRECTORY ]]; then
-      echo "output-directory: [$OUTPUT_DIRECTORY] [EXISTS]"
-      echo -n "Is [$OUTPUT_DIRECTORY] writeable? "
+      echo "- [$OUTPUT_DIRECTORY] [EXISTS]"
+      echo -n "- Is [$OUTPUT_DIRECTORY] writeable? "
       if [[ ! -w $OUTPUT_DIRECTORY ]]; then
         echo "[NO]"
-        echo "output-directory must be writeable!"
+        echo "- output-directory must be writeable!"
+        echo "- Possible permissions issue! See:"
         ls -hl "$OUTPUT_DIRECTORY"
         exit 1
       else
