@@ -11,6 +11,8 @@ fatal() {
 
 trap 'fatal ${LINENO} "$BASH_COMMAND"' ERR
 
+echo "BASH_VERSION: [$BASH_VERSION]"
+
 # functions
 
 validate_envsubst() {
@@ -19,9 +21,9 @@ validate_envsubst() {
   if ! which envsubst; then
     echo "envsubst command not found!"
     exit 1
+  else
+    envsubst --version
   fi
-
-  envsubst --version
 
   echo "::endgroup::"
 }
