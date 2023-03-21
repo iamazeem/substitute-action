@@ -9,7 +9,7 @@ fatal() {
   exit 1
 }
 
-trap 'fatal ${LINENO} "$BASH_COMMAND"' ERR
+trap 'fatal "$LINENO" "$BASH_COMMAND"' ERR
 
 # functions
 
