@@ -33,11 +33,11 @@ validate_env_files() {
     echo "env-files:"
     for ENV_FILE in $ENV_FILES; do
       echo -n "- [$ENV_FILE] "
-      if [[ ! -f $ENV_FILE ]]; then
+      if [[ -f $ENV_FILE ]]; then
+        echo "[EXISTS]"
+      else
         echo "[DOES NOT EXIST]"
         exit 1
-      else
-        echo "[EXISTS]"
       fi
     done
   fi
@@ -50,11 +50,12 @@ validate_input_files() {
   else
     echo "input-files:"
     for INPUT_FILE in $INPUT_FILES; do
-      if [[ ! -f $INPUT_FILE ]]; then
-        echo "[$INPUT_FILE] file does not exist!"
-        exit 1
+      echo -n "- [$INPUT_FILE] "
+      if [[ -f $INPUT_FILE ]]; then
+        echo "[EXISTS]"
       else
-        echo "- $INPUT_FILE"
+        echo "[DOES NOT EXIST]"
+        exit 1
       fi
     done
   fi
@@ -83,7 +84,7 @@ validate_output_directory() {
       fi
       echo "- output-directory: [$OUTPUT_DIRECTORY] [CREATED]"
     fi
-    echo -n "- Is [$OUTPUT_DIRECTORY] writeable? "
+    echo -n "- Is [$OUTPUT_DIRECTORY] directory writeable? "
     if [[ -w $OUTPUT_DIRECTORY ]]; then
       echo "[YES]"
     else
