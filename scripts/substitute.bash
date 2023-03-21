@@ -11,13 +11,14 @@ fatal() {
 
 trap 'fatal ${LINENO} "$BASH_COMMAND"' ERR
 
-echo "BASH_VERSION: [$BASH_VERSION]"
-
 # functions
 
-validate_envsubst() {
-  echo "::group::Validating envsubst command"
+validate_environment() {
+  echo "::group::Validating environment"
 
+  echo "BASH_VERSION: [$BASH_VERSION]"
+
+  echo "Validating envsubst command"
   if ! which envsubst; then
     echo "envsubst command not found!"
     exit 1
@@ -30,16 +31,21 @@ validate_envsubst() {
 
 validate_env_files() {
   if [[ -n $ENV_FILES ]]; then
+    local NOT_FOUND_COUNT=0
     echo "env-files:"
     for ENV_FILE in $ENV_FILES; do
       echo -n "- [$ENV_FILE] "
       if [[ -f $ENV_FILE ]]; then
-        echo "[EXISTS]"
+        echo "[FOUND]"
       else
-        echo "[DOES NOT EXIST]"
-        exit 1
+        echo "[NOT FOUND]"
+        (( NOT_FOUND_COUNT += 1 ))
       fi
     done
+    if (( NOT_FOUND_COUNT > 0 )); then
+      echo "File(s) not found! [$NOT_FOUND_COUNT]"
+      exit 1
+    fi
   fi
 }
 
@@ -48,16 +54,21 @@ validate_input_files() {
     echo "input-files cannot be empty!"
     exit 1
   else
+    local NOT_FOUND_COUNT=0
     echo "input-files:"
     for INPUT_FILE in $INPUT_FILES; do
       echo -n "- [$INPUT_FILE] "
       if [[ -f $INPUT_FILE ]]; then
-        echo "[EXISTS]"
+        echo "[FOUND]"
       else
-        echo "[DOES NOT EXIST]"
-        exit 1
+        echo "[NOT FOUND]"
+        (( NOT_FOUND_COUNT += 1 ))
       fi
     done
+    if (( NOT_FOUND_COUNT > 0 )); then
+      echo "File(s) not found! [$NOT_FOUND_COUNT]"
+      exit 1
+    fi
   fi
 }
 
@@ -74,17 +85,17 @@ validate_output_directory() {
   if [[ $ENABLE_IN_PLACE == false && -n $OUTPUT_DIRECTORY ]]; then
     echo "output-directory:"
     if [[ -d $OUTPUT_DIRECTORY ]]; then
-      echo "- [$OUTPUT_DIRECTORY] [EXISTS]"
+      echo "- [$OUTPUT_DIRECTORY] [FOUND]"
     else
-      echo "- [$OUTPUT_DIRECTORY] does not exist!"
+      echo "- [$OUTPUT_DIRECTORY] [NOT FOUND]"
       echo "- Creating [$OUTPUT_DIRECTORY]"
       if ! mkdir -p "$OUTPUT_DIRECTORY"; then
         echo "- Unable to create [$OUTPUT_DIRECTORY]!"
         exit 1
       fi
-      echo "- output-directory: [$OUTPUT_DIRECTORY] [CREATED]"
+      echo "- [$OUTPUT_DIRECTORY] [CREATED]"
     fi
-    echo -n "- Is [$OUTPUT_DIRECTORY] directory writeable? "
+    echo -n "- [$OUTPUT_DIRECTORY] writeable? "
     if [[ -w $OUTPUT_DIRECTORY ]]; then
       echo "[YES]"
     else
@@ -132,15 +143,17 @@ source_env_files() {
 }
 
 substitute() {
+  source_env_files
+
   if [[ -n $VARIABLES ]]; then
-    local VARS=""
+    local VARS_LIST=""
     for VARIABLE in $VARIABLES; do
-      if [[ -n $VARS ]]; then
-        VARS+=" "
+      if [[ -n $VARS_LIST ]]; then
+        VARS_LIST+=" "
       fi
-      VARS+="\$$VARIABLE"
+      VARS_LIST+="\$$VARIABLE"
     done
-    echo "::debug::VARS: [$VARS]"
+    echo "::debug::VARS_LIST: [$VARS_LIST]"
   fi
 
   for INPUT_FILE in $INPUT_FILES; do
@@ -176,7 +189,6 @@ substitute() {
 
 # start
 
-validate_envsubst
+validate_environment
 validate_inputs
-source_env_files
 substitute
