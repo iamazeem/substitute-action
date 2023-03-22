@@ -8,7 +8,7 @@ branding:
 
 inputs:
   env-files:
-    description: 'List of env files containing `VARIABLE=VALUE` per line'
+    description: 'List of `.env` files containing `VARIABLE=VALUE` per line'
     required: false
   input-files:
     description: 'List of input files to substitute environment variables'
@@ -24,7 +24,7 @@ inputs:
     required: false
     default: 'true'
   enable-dump:
-    description: 'Enable/disable dumping of updated files'
+    description: 'Enable/disable dumping of updated/generated files'
     required: false
     default: 'false'
 
