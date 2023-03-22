@@ -34,8 +34,9 @@ TODO
 - Create a `feature` or `bugfix` branch from `main`.
 - Commit and push changes to your forked repo.
 - Make sure to add tests. See [CI](./.github/workflows/ci.yml).
-- Lint and fix Bash scripts' issues with
-  [shellcheck](https://www.shellcheck.net/) online or with its
+- Lint and fix
+  [Bash](https://www.gnu.org/software/bash/manual/html_node/index.html) issues
+  with [shellcheck](https://www.shellcheck.net/) online or with
   [vscode-shellcheck](https://github.com/vscode-shellcheck/vscode-shellcheck)
   extension.
 - Lint and fix README Markdown issues with
