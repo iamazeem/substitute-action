@@ -10,7 +10,7 @@ GitHub Action to substitute environment variables.
 Tested on Linux, macOS, and Windows runners.
 See [CI workflow](.github/workflows/ci.yml) for more details.
 
-## Overview Diagram
+## Flow Diagram
 
 ```mermaid
 flowchart TD
@@ -22,7 +22,7 @@ flowchart TD
     E --> |"substitute [enable-in-place: false]"| G(newly generated files with .env suffix)
     G --> |move if configured| I(output-directory)
     F --> |"[enable-dump: true]"| J(STDOUT)
-    G --> |"[enable-dump: true]"| J(STDOUT)
+    G --> |"if not moved [enable-dump: true]"| J(STDOUT)
     I --> |"[enable-dump: true]"| J(STDOUT)
 ```
 
@@ -45,9 +45,9 @@ TODO
 
 ## Contribute
 
-You can [create
+You may [create
 issues](https://github.com/iamazeem/envsubst-action/issues/new/choose) to report
-bugs or propose new features.
+bugs or propose new features and enhancements.
 
 PRs are always welcome. Please follow this workflow for submitting PRs:
 
