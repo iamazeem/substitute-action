@@ -26,9 +26,6 @@ flowchart TD
     I --> |"[enable-dump: true]"| J
 ```
 
-Created with [mermaid.js](https://mermaid.js.org/.). See its
-[flowchart](https://mermaid.js.org/syntax/flowchart.html) docs for more details.
-
 ## Usage
 
 ### Inputs
@@ -67,6 +64,9 @@ PRs are always welcome. Please follow this workflow for submitting PRs:
 - Lint and fix README Markdown issues with
   [vscode-markdownlint](https://github.com/DavidAnson/vscode-markdownlint)
   extension.
+- [mermaid.js](https://mermaid.js.org/) has been used to create the flow
+  diagram. See its [flowchart](https://mermaid.js.org/syntax/flowchart.html)
+  syntax to update the flow diagram if required.
 - Submit the PR.
 
 ## License
