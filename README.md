@@ -8,6 +8,8 @@
 [GitHub Action](https://docs.github.com/en/actions) to substitute environment
 variables in files.
 
+The variables may be specified as `$VARIABLE` or `${VARIABLE}` in files.
+
 Tested on Linux, macOS, and Windows runners.
 See [CI workflow](.github/workflows/ci.yml) for more details.
 
@@ -42,9 +44,89 @@ flowchart TD
 | `enable-in-place`  | `false`  | `true`  | Enable/disable in-place substitution                           |
 |   `enable-dump`    | `false`  | `false` | Enable/disable dumping of updated/generated files              |
 
-### Examples
+## Examples
 
-TODO
+### Substitute env vars using `env`
+
+```yml
+- uses: iamazeem/envsubst-action@v1
+  env:
+    ENV_VAR1: 'env_val1'
+    ENV_VAR2: 'env_val2'
+  with:
+    input-files: |
+      input.json
+      input.yaml
+```
+
+### Substitute env vars using `env` and `env-files`
+
+```yml
+- uses: iamazeem/envsubst-action@v1
+  env:
+    ENV_VAR1: 'env_val1'
+    ENV_VAR2: 'env_val2'
+  with:
+    env-files: |
+      env-file1.env
+      env-file2.env
+    input-files: |
+      input.json
+      input.yaml
+```
+
+### Substitute env vars using `variables`
+
+```yml
+- uses: iamazeem/envsubst-action@v1
+  env:
+    ENV_VAR1: 'env_val1'
+    ENV_VAR2: 'env_val2'
+    ENV_VAR3: 'env_val3'            # Ignored
+  with:
+    variables: |
+      ENV_VAR1
+      ENV_VAR2
+    input-files: |
+      input.json
+      input.yaml
+```
+
+### Substitute env vars using `prefixes`
+
+```yml
+- uses: iamazeem/envsubst-action@v1
+  env:
+    ENV_VAR: 'env_var'
+    TEST_VAR: 'test_var'            # Ignored
+    SAMPLE_VAR: 'sample_var'        # Ignored
+  with:
+    prefixes: |
+      ENV_VAR
+    input-files: |
+      input.json
+      input.yaml
+```
+
+### Substitute env vars using `variables` and `prefixes`
+
+```yml
+- uses: iamazeem/envsubst-action@v1
+  env:
+    ENV_VAR1: 'env_val1'
+    ENV_VAR2: 'env_val2'            # Ignored
+    ENV_VAR3: 'env_val3'            # Ignored
+    TEST_VAR1: 'test_var1'
+    TEST_VAR2: 'test_var2'
+  with:
+    variables: |
+      ENV_VAR1
+    prefixes: |
+      TEST_VAR
+    input-files: |
+      input.json
+      input.yaml
+```
 
 ## Contribute
 
