@@ -74,10 +74,21 @@ validate_input_files() {
 
 validate_variables() {
   if [[ -n $VARIABLES ]]; then
+    local INVALID_VARS_COUNT=0
     echo "variables:"
     for VARIABLE in $VARIABLES; do
-      echo "- $VARIABLE"
+      echo -n "- $VARIABLE "
+      if [[ $VARIABLE =~ ^[[:blank:]]*[A-Za-z_]+[A-Za-z0-9_]*$ ]]; then
+        echo "[VALID]"
+      else
+        echo "[INVALID]"
+        (( INVALID_VARS_COUNT += 1 ))
+      fi
     done
+    if (( INVALID_VARS_COUNT > 0 )); then
+      echo "Invalid variable(s) found! [$INVALID_VARS_COUNT]"
+      exit 1
+    fi
   fi
 }
 
