@@ -5,7 +5,8 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/iamAzeem/envsubst-action?style=flat-square)
 [![Buy Me a Coffee](https://img.shields.io/badge/Support-Buy%20Me%20A%20Coffee-orange.svg?style=flat-square)](https://www.buymeacoffee.com/iamazeem)
 
-GitHub Action to substitute environment variables.
+[GitHub Action](https://docs.github.com/en/actions) to substitute environment
+variables in files.
 
 Tested on Linux, macOS, and Windows runners.
 See [CI workflow](.github/workflows/ci.yml) for more details.
