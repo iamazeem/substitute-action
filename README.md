@@ -15,12 +15,13 @@ See [CI workflow](.github/workflows/ci.yml) for more details.
 
 ```mermaid
 flowchart TD
-    A(env) --> |export env vars| B(env-files)
-    B --> |export .env files| C(variables)
-    C --> |select listed env vars only| D(prefixes)
-    D --> |select env vars by prefixes| E(input-files)
-    E --> |"substitute [enable-in-place: true]"| F(updated files)
-    E --> |"substitute [enable-in-place: false]"| G(newly generated files with .env suffix)
+    A(env) --> |export .env files| B(env-files)
+    B --> |select listed env vars| C(variables)
+    B --> |select prefixed env vars| D(prefixes)
+    C --> |substitute| E(input-files)
+    D --> |substitute| E(input-files)
+    E --> |"[enable-in-place: true]"| F(updated files)
+    E --> |"[enable-in-place: false]"| G(new output files with .env suffix)
     G --> |move if configured| I(output-directory)
     F --> |"[enable-dump: true]"| J(STDOUT)
     G --> |"if not moved [enable-dump: true]"| J
@@ -31,14 +32,15 @@ flowchart TD
 
 ### Inputs
 
-|       Input        | Required | Default | Description                                               |
-| :----------------: | :------: | :-----: | :-------------------------------------------------------- |
-|    `env-files`     | `false`  |         | List of `.env` files containing `VARIABLE=VALUE` per line |
-|   `input-files`    |  `true`  |         | List of input files to substitute environment variables   |
-|    `variables`     | `false`  |         | List of variables to substitute; the rest is ignored      |
-| `output-directory` | `false`  |         | Output directory path when `enable-in-place: false`       |
-| `enable-in-place`  | `false`  | `true`  | Enable/disable in-place substitution                      |
-|   `enable-dump`    | `false`  | `false` | Enable/disable dumping of updated/generated files         |
+|       Input        | Required | Default | Description                                                    |
+| :----------------: | :------: | :-----: | :------------------------------------------------------------- |
+|    `env-files`     | `false`  |         | List of `.env` files containing `VARIABLE=VALUE` per line      |
+|   `input-files`    |  `true`  |         | List of input files to substitute environment variables        |
+|    `variables`     | `false`  |         | List of variables to substitute; the rest is ignored           |
+|     `prefixes`     | `false`  |         | List of prefixes to select env vars in addition to `variables` |
+| `output-directory` | `false`  |         | Output directory path when `enable-in-place: false`            |
+| `enable-in-place`  | `false`  | `true`  | Enable/disable in-place substitution                           |
+|   `enable-dump`    | `false`  | `false` | Enable/disable dumping of updated/generated files              |
 
 ### Examples
 
