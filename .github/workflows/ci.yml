@@ -96,7 +96,7 @@ jobs:
           test/test.json
           test/test.yaml
         prefixes: |
-          ENV
+          ENV_VAR
         enable-in-place: false
         enable-dump: true
 
