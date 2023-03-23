@@ -40,4 +40,6 @@ runs:
       ENABLE_IN_PLACE: ${{ inputs.enable-in-place == 'true' }}
       ENABLE_DUMP: ${{ inputs.enable-dump == 'true' }}
     shell: bash
-    run: $GITHUB_ACTION_PATH/scripts/substitute.bash
+    run: |
+      $GITHUB_ACTION_PATH/scripts/validate.bash
+      $GITHUB_ACTION_PATH/scripts/substitute.bash
