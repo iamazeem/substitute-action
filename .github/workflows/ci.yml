@@ -46,8 +46,8 @@ jobs:
 
     - name: 'Verify {enable-in-place: false, enable-dump: true}'
       run: |
-        diff test/test.json.env test/test.json.expected
-        diff test/test.yaml.env test/test.yaml.expected
+        diff test/test.json.env test/expected/test.json
+        diff test/test.yaml.env test/expected/test.yaml
         git restore .
 
     - name: 'Run {enable-in-place: true, enable-dump: true}'
@@ -63,8 +63,8 @@ jobs:
 
     - name: 'Verify {enable-in-place: true, enable-dump: true}'
       run: |
-        diff test/test.json test/test.json.expected
-        diff test/test.yaml test/test.yaml.expected
+        diff test/test.json test/expected/test.json
+        diff test/test.yaml test/expected/test.yaml
         git restore .
 
     - name: 'Run {variables, enable-in-place: false, enable-dump: true}'
@@ -83,8 +83,8 @@ jobs:
 
     - name: 'Verify {variables, enable-in-place: false, enable-dump: true}'
       run: |
-        diff test/test.json.env test/test-variables.json.expected
-        diff test/test.yaml.env test/test-variables.yaml.expected
+        diff test/test.json.env test/expected/test-variables.json
+        diff test/test.yaml.env test/expected/test-variables.yaml
         git restore .
 
     - name: 'Run {prefixes, enable-in-place: false, enable-dump: true}'
@@ -102,8 +102,8 @@ jobs:
 
     - name: 'Verify {prefixes, enable-in-place: false, enable-dump: true}'
       run: |
-        diff test/test.json.env test/test-prefixes.json.expected
-        diff test/test.yaml.env test/test-prefixes.yaml.expected
+        diff test/test.json.env test/expected/test-prefixes.json
+        diff test/test.yaml.env test/expected/test-prefixes.yaml
         git restore .
 
     - name: 'Run {output-directory, enable-in-place: false, enable-dump: true}'
@@ -120,6 +120,6 @@ jobs:
 
     - name: 'Verify {output-directory, enable-in-place: false, enable-dump: true}'
       run: |
-        diff output/test.json.env test/test.json.expected
-        diff output/test.yaml.env test/test.yaml.expected
+        diff output/test.json.env test/expected/test.json
+        diff output/test.yaml.env test/expected/test.yaml
         git restore .
