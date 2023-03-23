@@ -118,6 +118,40 @@ jobs:
         enable-in-place: false
         enable-dump: true
 
+    - name: 'Run {variables, prefixes, enable-in-place: false, enable-dump: true}'
+      uses: ./
+      with:
+        env-files: |
+          test/test.env
+        input-files: |
+          test/test.json
+          test/test.yaml
+        variables: |
+          TEST_VAR0
+          TEST_VAR1
+        prefixes: |
+          ENV_VAR
+        enable-in-place: false
+        enable-dump: true
+
+    - name: 'Verify {variables, prefixes, enable-in-place: false, enable-dump: true}'
+      run: |
+        diff test/test.json.env test/expected/test-variables-prefixes.json
+        diff test/test.yaml.env test/expected/test-variables-prefixes.yaml
+        git restore .
+
+    - name: 'Run {output-directory, enable-in-place: false, enable-dump: true}'
+      uses: ./
+      with:
+        env-files: |
+          test/test.env
+        input-files: |
+          test/test.json
+          test/test.yaml
+        output-directory: ./output
+        enable-in-place: false
+        enable-dump: true
+
     - name: 'Verify {output-directory, enable-in-place: false, enable-dump: true}'
       run: |
         diff output/test.json.env test/expected/test.json
