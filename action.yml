@@ -16,6 +16,9 @@ inputs:
   variables:
     description: 'List of variables to substitute; the rest is ignored'
     required: false
+  prefixes:
+    description: 'List of prefixes to select env vars in addition to `variables`'
+    required: false
   output-directory:
     description: 'Output directory path when `enable-in-place: false`'
     required: false
@@ -36,6 +39,7 @@ runs:
       ENV_FILES: '${{ inputs.env-files }}'
       INPUT_FILES: '${{ inputs.input-files }}'
       VARIABLES: '${{ inputs.variables }}'
+      PREFIXES: '${{ inputs.prefixes }}'
       OUTPUT_DIRECTORY: '${{ inputs.output-directory }}'
       ENABLE_IN_PLACE: ${{ inputs.enable-in-place == 'true' }}
       ENABLE_DUMP: ${{ inputs.enable-dump == 'true' }}

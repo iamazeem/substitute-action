@@ -43,7 +43,7 @@ validate_env_files() {
       fi
     done
     if (( NOT_FOUND_COUNT > 0 )); then
-      echo "File(s) not found! [$NOT_FOUND_COUNT]"
+      echo "Env file(s) not found! [$NOT_FOUND_COUNT]"
       exit 1
     fi
   fi
@@ -66,7 +66,7 @@ validate_input_files() {
       fi
     done
     if (( NOT_FOUND_COUNT > 0 )); then
-      echo "File(s) not found! [$NOT_FOUND_COUNT]"
+      echo "Input file(s) not found! [$NOT_FOUND_COUNT]"
       exit 1
     fi
   fi
@@ -77,7 +77,7 @@ validate_variables() {
     local INVALID_VARS_COUNT=0
     echo "variables:"
     for VARIABLE in $VARIABLES; do
-      echo -n "- $VARIABLE "
+      echo -n "- [$VARIABLE] "
       if [[ $VARIABLE =~ ^[[:blank:]]*[A-Za-z_]+[A-Za-z0-9_]*$ ]]; then
         echo "[VALID]"
       else
@@ -87,6 +87,26 @@ validate_variables() {
     done
     if (( INVALID_VARS_COUNT > 0 )); then
       echo "Invalid variable(s) found! [$INVALID_VARS_COUNT]"
+      exit 1
+    fi
+  fi
+}
+
+validate_prefixes() {
+  if [[ -n $PREFIXES ]]; then
+    local INVALID_PREFIXES_COUNT=0
+    echo "prefixes:"
+    for PREFIX in $PREFIXES; do
+      echo -n "- [$PREFIX] "
+      if [[ $PREFIX =~ ^[[:blank:]]*[A-Za-z_]+[A-Za-z0-9_]*$ ]]; then
+        echo "[VALID]"
+      else
+        echo "[INVALID]"
+        (( INVALID_PREFIXES_COUNT += 1 ))
+      fi
+    done
+    if (( INVALID_PREFIXES_COUNT > 0 )); then
+      echo "Invalid prefix(es) found! [$INVALID_PREFIXES_COUNT]"
       exit 1
     fi
   fi
@@ -133,6 +153,7 @@ validate_inputs() {
   validate_env_files
   validate_input_files
   validate_variables
+  validate_prefixes
   validate_output_directory
   validate_enable_in_place
   validate_enable_dump
