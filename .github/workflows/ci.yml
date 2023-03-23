@@ -22,18 +22,19 @@ jobs:
       run:
         shell: bash
 
+    env:
+      ENV_VAR0: 'env_val0'
+      ENV_VAR1: 'env_val1'
+      ENV_VAR2: 'env_val2'
+      ENV_VAR3: 'env_val3'
+      ENV_VAR4: 'env_val4'
+
     steps:
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v3
 
     - name: 'Run {enable-in-place: false, enable-dump: true}'
       uses: ./
-      env:
-        ENV_VAR0: 'env_val0'
-        ENV_VAR1: 'env_val1'
-        ENV_VAR2: 'env_val2'
-        ENV_VAR3: 'env_val3'
-        ENV_VAR4: 'env_val4'
       with:
         env-files: |
           test/test.env
@@ -51,12 +52,6 @@ jobs:
 
     - name: 'Run {enable-in-place: true, enable-dump: true}'
       uses: ./
-      env:
-        ENV_VAR0: 'env_val0'
-        ENV_VAR1: 'env_val1'
-        ENV_VAR2: 'env_val2'
-        ENV_VAR3: 'env_val3'
-        ENV_VAR4: 'env_val4'
       with:
         env-files: |
           test/test.env
@@ -74,12 +69,6 @@ jobs:
 
     - name: 'Run with variables {enable-in-place: false, enable-dump: true}'
       uses: ./
-      env:
-        ENV_VAR0: 'env_val0'
-        ENV_VAR1: 'env_val1'
-        ENV_VAR2: 'env_val2'
-        ENV_VAR3: 'env_val3'
-        ENV_VAR4: 'env_val4'
       with:
         env-files: |
           test/test.env
@@ -100,12 +89,6 @@ jobs:
 
     - name: 'Run with output-directory {enable-in-place: false, enable-dump: true}'
       uses: ./
-      env:
-        ENV_VAR0: 'env_val0'
-        ENV_VAR1: 'env_val1'
-        ENV_VAR2: 'env_val2'
-        ENV_VAR3: 'env_val3'
-        ENV_VAR4: 'env_val4'
       with:
         env-files: |
           test/test.env
