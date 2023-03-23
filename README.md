@@ -10,6 +10,22 @@ GitHub Action to substitute environment variables.
 Tested on Linux, macOS, and Windows runners.
 See [CI workflow](.github/workflows/ci.yml) for more details.
 
+## Overview Diagram
+
+```mermaid
+flowchart TD
+    A(env) --> |export env vars| B(env-files)
+    B --> |export .env files| C(variables)
+    C --> |select listed env vars only| D(prefixes)
+    D --> |select env vars by prefixes| E(input-files)
+    E --> |"substitute [enable-in-place: true]"| F(updated files)
+    E --> |"substitute [enable-in-place: false]"| G(newly generated files with .env suffix)
+    G --> |move if configured| I(output-directory)
+    F --> |"[enable-dump: true]"| J(STDOUT)
+    G --> |"[enable-dump: true]"| J(STDOUT)
+    I --> |"[enable-dump: true]"| J(STDOUT)
+```
+
 ## Usage
 
 ### Inputs
@@ -29,14 +45,20 @@ TODO
 
 ## Contribute
 
+You can [create
+issues](https://github.com/iamazeem/envsubst-action/issues/new/choose) to report
+bugs or propose new features.
+
+PRs are always welcome. Please follow this workflow for submitting PRs:
+
 - [Fork](https://github.com/iamazeem/envsubst-action/fork) the repo.
 - Check out the latest `main` branch.
 - Create a `feature` or `bugfix` branch from `main`.
 - Commit and push changes to your forked repo.
 - Make sure to add tests. See [CI](./.github/workflows/ci.yml).
 - Lint and fix
-  [Bash](https://www.gnu.org/software/bash/manual/html_node/index.html) issues
-  with [shellcheck](https://www.shellcheck.net/) online or with
+  [Bash](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html)
+  issues with [shellcheck](https://www.shellcheck.net/) online or with
   [vscode-shellcheck](https://github.com/vscode-shellcheck/vscode-shellcheck)
   extension.
 - Lint and fix README Markdown issues with
