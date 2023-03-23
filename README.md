@@ -22,9 +22,12 @@ flowchart TD
     E --> |"substitute [enable-in-place: false]"| G(newly generated files with .env suffix)
     G --> |move if configured| I(output-directory)
     F --> |"[enable-dump: true]"| J(STDOUT)
-    G --> |"if not moved [enable-dump: true]"| J(STDOUT)
-    I --> |"[enable-dump: true]"| J(STDOUT)
+    G --> |"if not moved [enable-dump: true]"| J
+    I --> |"[enable-dump: true]"| J
 ```
+
+Created with [mermaid.js](https://mermaid.js.org/.). See its
+[flowchart](https://mermaid.js.org/syntax/flowchart.html) docs for more details.
 
 ## Usage
 
