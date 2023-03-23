@@ -13,6 +13,26 @@ The variables may be specified as `$VARIABLE` or `${VARIABLE}` in files.
 Tested on Linux, macOS, and Windows runners.
 See [CI workflow](.github/workflows/ci.yml) for more details.
 
+## Usage
+
+### Inputs
+
+|       Input        | Required | Default | Description                                                    |
+| :----------------: | :------: | :-----: | :------------------------------------------------------------- |
+|    `env-files`     | `false`  |         | List of `.env` files containing `VARIABLE=VALUE` per line      |
+|   `input-files`    |  `true`  |         | List of input files to substitute environment variables        |
+|    `variables`     | `false`  |         | List of variables to substitute; the rest is ignored           |
+|     `prefixes`     | `false`  |         | List of prefixes to select env vars in addition to `variables` |
+| `output-directory` | `false`  |         | Output directory path when `enable-in-place: false`            |
+| `enable-in-place`  | `false`  | `true`  | Enable/disable in-place substitution                           |
+|   `enable-dump`    | `false`  | `false` | Enable/disable dumping of updated/generated files              |
+
+By default, the in-place substitution is performed.
+
+With `enable-in-place: false`, the new output files are generated with the
+`.env` filename suffix. The files are generated in the same directory if the
+`output-directory` is not configured.
+
 ## Flow Diagram
 
 ```mermaid
@@ -30,23 +50,9 @@ flowchart TD
     I --> |"[enable-dump: true]"| J
 ```
 
-## Usage
-
-### Inputs
-
-|       Input        | Required | Default | Description                                                    |
-| :----------------: | :------: | :-----: | :------------------------------------------------------------- |
-|    `env-files`     | `false`  |         | List of `.env` files containing `VARIABLE=VALUE` per line      |
-|   `input-files`    |  `true`  |         | List of input files to substitute environment variables        |
-|    `variables`     | `false`  |         | List of variables to substitute; the rest is ignored           |
-|     `prefixes`     | `false`  |         | List of prefixes to select env vars in addition to `variables` |
-| `output-directory` | `false`  |         | Output directory path when `enable-in-place: false`            |
-| `enable-in-place`  | `false`  | `true`  | Enable/disable in-place substitution                           |
-|   `enable-dump`    | `false`  | `false` | Enable/disable dumping of updated/generated files              |
-
 ## Examples
 
-### Substitute env vars using `env`
+### Substitute env vars from `env`
 
 ```yml
 - uses: iamazeem/envsubst-action@v1
@@ -59,7 +65,7 @@ flowchart TD
       input.yaml
 ```
 
-### Substitute env vars using `env` and `env-files`
+### Substitute env vars with `env` and `env-files`
 
 ```yml
 - uses: iamazeem/envsubst-action@v1
@@ -75,7 +81,7 @@ flowchart TD
       input.yaml
 ```
 
-### Substitute env vars using `variables`
+### Substitute env vars with `variables`
 
 ```yml
 - uses: iamazeem/envsubst-action@v1
@@ -92,14 +98,14 @@ flowchart TD
       input.yaml
 ```
 
-### Substitute env vars using `prefixes`
+### Substitute env vars with `prefixes`
 
 ```yml
 - uses: iamazeem/envsubst-action@v1
   env:
-    ENV_VAR: 'env_var'
-    TEST_VAR: 'test_var'            # Ignored
-    SAMPLE_VAR: 'sample_var'        # Ignored
+    ENV_VAR: 'env_val'
+    TEST_VAR: 'test_val'            # Ignored
+    SAMPLE_VAR: 'sample_val'        # Ignored
   with:
     prefixes: |
       ENV_VAR
@@ -108,7 +114,7 @@ flowchart TD
       input.yaml
 ```
 
-### Substitute env vars using `variables` and `prefixes`
+### Substitute env vars with `variables` and `prefixes`
 
 ```yml
 - uses: iamazeem/envsubst-action@v1
@@ -116,8 +122,8 @@ flowchart TD
     ENV_VAR1: 'env_val1'
     ENV_VAR2: 'env_val2'            # Ignored
     ENV_VAR3: 'env_val3'            # Ignored
-    TEST_VAR1: 'test_var1'
-    TEST_VAR2: 'test_var2'
+    TEST_VAR1: 'test_val1'
+    TEST_VAR2: 'test_val2'
   with:
     variables: |
       ENV_VAR1
