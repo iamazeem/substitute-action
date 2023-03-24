@@ -1,37 +1,42 @@
-# envsubst-action
+# substitute-action
 
-[![CI](https://github.com/iamazeem/envsubst-action/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamAzeem/envsubst-action/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-darkgreen.svg?style=flat-square)](https://github.com/iamAzeem/envsubst-action/blob/master/LICENSE)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/iamAzeem/envsubst-action?style=flat-square)
+[![CI](https://github.com/iamazeem/substitute-action/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/iamAzeem/substitute-action/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-darkgreen.svg?style=flat-square)](https://github.com/iamAzeem/substitute-action/blob/master/LICENSE)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/iamAzeem/substitute-action?style=flat-square)
 [![Buy Me a Coffee](https://img.shields.io/badge/Support-Buy%20Me%20A%20Coffee-orange.svg?style=flat-square)](https://www.buymeacoffee.com/iamazeem)
 
 [GitHub Action](https://docs.github.com/en/actions) to substitute environment
 variables in files.
 
-The variables may be specified as `$VARIABLE` or `${VARIABLE}` in files.
+This
+[composite](https://docs.github.com/en/actions/creating-actions/about-custom-actions#types-of-actions)
+action makes use of standard
+[Bash](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html)
+facilities such as `ls`, `mkdir`, `mv`, `if`, `for`, `echo`, `env`, `envsubst`,
+`exit`, `grep`, `cut`, `source`, etc.
 
-Tested on Linux, macOS, and Windows runners.
+It is actively tested on Linux, macOS, and Windows runners.
 See [CI workflow](.github/workflows/ci.yml) for more details.
 
-## Usage
+## Features
 
-### Inputs
-
-|       Input        | Required | Default | Description                                                    |
-| :----------------: | :------: | :-----: | :------------------------------------------------------------- |
-|    `env-files`     | `false`  |         | List of `.env` files containing `VARIABLE=VALUE` per line      |
-|   `input-files`    |  `true`  |         | List of input files to substitute environment variables        |
-|    `variables`     | `false`  |         | List of variables to substitute; the rest is ignored           |
-|     `prefixes`     | `false`  |         | List of prefixes to select env vars in addition to `variables` |
-| `output-directory` | `false`  |         | Output directory path when `enable-in-place: false`            |
-| `enable-in-place`  | `false`  | `true`  | Enable/disable in-place substitution                           |
-|   `enable-dump`    | `false`  | `false` | Enable/disable dumping of updated/generated files              |
-
-By default, the in-place substitution is performed.
-
-With `enable-in-place: false`, the new output files are generated with the
-`.env` filename suffix. The files are generated in the same directory if the
-`output-directory` is not configured.
+- Supports `$VARIABLE` or `${VARIABLE}` syntax to specify variables in input
+  files.
+- Allows multiple `.env` files in addition to the `env` context.
+- Allows nested use of variables in `.env` files from previously listed files
+  and the `env` context.
+- Supports multiline values but format-specific escaping is not supported. Any
+  multiline substitution resulting in an ill-formed file e.g. JSON, YAML, etc.
+  is the responsibility of the end user.
+- Multiple input files are allowed for substitution.
+- Supports filtering of the env vars by their full names and/or prefixes.
+- By default, in-place substitution is performed.
+- By disabling the default in-place substitution, newly substituted files are
+  generated with `.env` suffixes in the same directory.
+- These newly generated `.env` files may be routed to a different path by
+  configuring an output directory. The output directory path will be created if
+  it does not exist.
+- Supports dumping of updated/generated files to STDOUT for debugging purposes.
 
 ## Flow Diagram
 
@@ -50,12 +55,26 @@ flowchart TD
     I --> |"[enable-dump: true]"| J
 ```
 
+## Usage
+
+### Inputs
+
+|       Input        | Required | Default | Description                                                    |
+| :----------------: | :------: | :-----: | :------------------------------------------------------------- |
+|    `env-files`     | `false`  |         | List of `.env` files containing `VARIABLE=VALUE` per line      |
+|   `input-files`    |  `true`  |         | List of input files to substitute environment variables        |
+|    `variables`     | `false`  |         | List of variables to substitute; the rest is ignored           |
+|     `prefixes`     | `false`  |         | List of prefixes to select env vars in addition to `variables` |
+| `output-directory` | `false`  |         | Output directory path when `enable-in-place: false`            |
+| `enable-in-place`  | `false`  | `true`  | Enable/disable in-place substitution                           |
+|   `enable-dump`    | `false`  | `false` | Enable/disable dumping of updated/generated files              |
+
 ## Examples
 
 ### Substitute env vars from `env`
 
 ```yml
-- uses: iamazeem/envsubst-action@v1
+- uses: iamazeem/substitute-action@v1
   env:
     ENV_VAR1: 'env_val1'
     ENV_VAR2: 'env_val2'
@@ -68,7 +87,7 @@ flowchart TD
 ### Substitute env vars with `env` and `env-files`
 
 ```yml
-- uses: iamazeem/envsubst-action@v1
+- uses: iamazeem/substitute-action@v1
   env:
     ENV_VAR1: 'env_val1'
     ENV_VAR2: 'env_val2'
@@ -84,7 +103,7 @@ flowchart TD
 ### Substitute env vars with `variables`
 
 ```yml
-- uses: iamazeem/envsubst-action@v1
+- uses: iamazeem/substitute-action@v1
   env:
     ENV_VAR1: 'env_val1'
     ENV_VAR2: 'env_val2'
@@ -101,7 +120,7 @@ flowchart TD
 ### Substitute env vars with `prefixes`
 
 ```yml
-- uses: iamazeem/envsubst-action@v1
+- uses: iamazeem/substitute-action@v1
   env:
     ENV_VAR: 'env_val'
     TEST_VAR: 'test_val'            # Ignored
@@ -117,7 +136,7 @@ flowchart TD
 ### Substitute env vars with `variables` and `prefixes`
 
 ```yml
-- uses: iamazeem/envsubst-action@v1
+- uses: iamazeem/substitute-action@v1
   env:
     ENV_VAR1: 'env_val1'
     ENV_VAR2: 'env_val2'            # Ignored
@@ -137,12 +156,12 @@ flowchart TD
 ## Contribute
 
 You may [create
-issues](https://github.com/iamazeem/envsubst-action/issues/new/choose) to report
+issues](https://github.com/iamazeem/substitute-action/issues/new/choose) to report
 bugs or propose new features and enhancements.
 
 PRs are always welcome. Please follow this workflow for submitting PRs:
 
-- [Fork](https://github.com/iamazeem/envsubst-action/fork) the repo.
+- [Fork](https://github.com/iamazeem/substitute-action/fork) the repo.
 - Check out the latest `main` branch.
 - Create a `feature` or `bugfix` branch from `main`.
 - Commit and push changes to your forked repo.
