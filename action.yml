@@ -1,4 +1,4 @@
-name: 'envsubst-action'
+name: 'substitute-action'
 description: 'GitHub Action to substitute environment variables'
 author: 'Azeem Sajid <azeem.sajid@gmail.com>'
 

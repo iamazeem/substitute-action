@@ -119,7 +119,6 @@ validate_output_directory() {
       echo "- [$OUTPUT_DIRECTORY] [FOUND]"
     else
       echo "- [$OUTPUT_DIRECTORY] [NOT FOUND]"
-      echo "- Creating [$OUTPUT_DIRECTORY]"
       if ! mkdir -p "$OUTPUT_DIRECTORY"; then
         echo "- Unable to create [$OUTPUT_DIRECTORY]!"
         exit 1
