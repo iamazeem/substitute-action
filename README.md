@@ -10,12 +10,12 @@ variables in files.
 
 This
 [composite](https://docs.github.com/en/actions/creating-actions/about-custom-actions#types-of-actions)
-action makes use of standard
+action uses standard
 [Bash](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html)
 facilities such as `ls`, `mkdir`, `mv`, `if`, `for`, `echo`, `env`, `envsubst`,
 `exit`, `grep`, `cut`, `source`, etc.
 
-It is actively tested on Linux, macOS, and Windows runners.
+It is actively being tested on Linux, macOS, and Windows runners.
 See [CI workflow](.github/workflows/ci.yml) for more details.
 
 ## Features
