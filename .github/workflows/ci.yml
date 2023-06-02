@@ -30,6 +30,15 @@ jobs:
       ENV_VAR4: 'env_val4'
 
     steps:
+    - name: Delete previous scheduled runs except the last one from Linux runner
+      if: ${{ runner.os == 'Linux' && github.event_name == 'schedule' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        for rid in $(gh run list --json databaseId | jq -r '.[] | join("")' | tail -n +2); do
+          gh run delete "$rid";
+        done
+
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v3
 
