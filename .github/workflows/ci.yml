@@ -110,7 +110,7 @@ jobs:
           test/test.json
           test/test.yaml
         prefixes: |
-          ENV_VAR
+          ENV
         enable-in-place: false
         enable-dump: true
 
@@ -144,7 +144,7 @@ jobs:
           TEST_VAR0
           TEST_VAR1
         prefixes: |
-          ENV_VAR
+          ENV
         enable-in-place: false
         enable-dump: true
 
