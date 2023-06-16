@@ -71,6 +71,39 @@ flowchart TD
 
 ## Examples
 
+In the following examples, for these sample input files:
+
+`input.json`
+
+```json
+{
+  "ENV_VAR": "${ENV_VAR}",
+  "ENV_VAR1": "${ENV_VAR1}",
+  "ENV_VAR2": "${ENV_VAR2}",
+  "ENV_VAR3": "${ENV_VAR3}",
+  "TEST_VAR": "${TEST_VAR}",
+  "TEST_VAR1": "${TEST_VAR1}",
+  "TEST_VAR2": "${TEST_VAR2}",
+  "SAMPLE_VAR": "${SAMPLE_VAR}"
+}
+```
+
+`input.yaml`
+
+```yaml
+ENV_VAR: "$ENV_VAR"
+ENV_VAR1: "$ENV_VAR1"
+ENV_VAR2: "$ENV_VAR2"
+ENV_VAR3: "$ENV_VAR3"
+TEST_VAR: "$TEST_VAR"
+TEST_VAR1: "$TEST_VAR1"
+TEST_VAR2: "$TEST_VAR2"
+SAMPLE_VAR: "$SAMPLE_VAR"
+```
+
+Only the available variables are substituted with their respective values
+specified by `${VARIABLE}` and `$VARIABLE`.
+
 ### Substitute env vars from `env`
 
 ```yml
