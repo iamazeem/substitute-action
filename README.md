@@ -160,7 +160,7 @@ specified by `$VARIABLE` or `${VARIABLE}`.
     SAMPLE_VAR: 'sample_val'        # Ignored
   with:
     prefixes: |
-      ENV_VAR
+      ENV
     input-files: |
       input.json
       input.yaml
