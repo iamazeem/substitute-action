@@ -36,8 +36,8 @@ jobs:
     - name: Checkout ${{ github.repository }}
       uses: actions/checkout@v4
 
-    - name: Delete previous scheduled runs except the last one from Linux runner
-      if: ${{ runner.os == 'Linux' && github.event_name == 'schedule' }}
+    - name: Delete previous runs except the last one from Linux runner
+      if: ${{ runner.os == 'Linux' && github.event_name == 'workflow_dispatch' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
