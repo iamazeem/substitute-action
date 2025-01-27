@@ -7,15 +7,7 @@
 [GitHub Action](https://docs.github.com/en/actions) to substitute environment
 variables in files.
 
-This
-[composite](https://docs.github.com/en/actions/creating-actions/about-custom-actions#types-of-actions)
-action uses standard
-[Bash](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html)
-facilities such as `ls`, `mkdir`, `mv`, `if`, `for`, `echo`, `env`, `envsubst`,
-`exit`, `grep`, `cut`, `source`, etc.
-
-It is actively being tested on Linux, macOS, and Windows runners.
-See [CI workflow](.github/workflows/ci.yml) for more details.
+[Tested](.github/workflows/ci.yml) on Linux, macOS, and Windows runners.
 
 ## Features
 
