@@ -38,12 +38,9 @@ jobs:
 
     - name: Delete previous runs except the last one from Linux runner
       if: ${{ runner.os == 'Linux' && github.event_name == 'workflow_dispatch' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        for rid in $(gh run list --json databaseId --jq '.[] | join("")' | tail -n +2); do
-          gh run delete "$rid";
-        done
+      uses: iamazeem/delete-workflow-runs-action@v1
+      with:
+        keep: 1
 
     - name: 'Run {enable-in-place: false, enable-dump: true}'
       uses: ./
